@@ -4,7 +4,7 @@ import { faTrash, faEdit, faClone, faCirclePlus } from '@fortawesome/free-solid-
 import swal from "sweetalert";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconButton } from '@mui/material';
-import styled from "./Demo.module.css";
+import styled from "./Education.module.css";
 
 
 const originData = [];
@@ -14,9 +14,7 @@ for (let i = 0; i < 100; i++) {
     active: true,
     id: i,
     Department: "Department "+i,
-    name: `Edrward ${i}`,
-    age: 32,
-    address: `London Park no. ${i}`,
+ 
   });
 }
 
@@ -55,7 +53,7 @@ const EditableCell = ({
     </td>
   );
 };
-const Demo = () => {
+const Education = () => {
 
 
   const [form] = Form.useForm();
@@ -152,7 +150,7 @@ const Demo = () => {
       title: '#',
       dataIndex: 'id',
       width: '30%',
-      editable: true,
+      editable: false,
     },
     {
       title: 'Department',
@@ -243,4 +241,4 @@ const Demo = () => {
     </Form>
   );
 };
-export default Demo;
+export default Education;
