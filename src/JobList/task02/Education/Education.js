@@ -5,20 +5,7 @@ import swal from "sweetalert";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconButton } from '@mui/material';
 import styled from "./Education.module.css";
-
-
-const originData = [];
-for (let i = 0; i < 100; i++) {
-  originData.push({
-    key: i.toString(),
-    active: true,
-    id: i,
-    Department: "Department "+i,
- 
-  });
-}
-
-
+import './JobList.css'
 const EditableCell = ({
   editing,
   dataIndex,
@@ -54,11 +41,9 @@ const EditableCell = ({
   );
 };
 const Education = () => {
-
-
   const [form] = Form.useForm();
-  const [data, setData] = useState(originData);
-
+  const [data, setData] = useState([]);
+  const [benefit, setBenefit] = useState('');
   const [editingKey, setEditingKey] = useState('');
   const isEditing = (record) => record.key === editingKey;
   const edit = (record) => {
@@ -86,7 +71,7 @@ const Education = () => {
         });
         setData(newData);
         setEditingKey('');
-      } 
+      }
       else {
         newData.push(row);
         setData(newData);
@@ -96,15 +81,24 @@ const Education = () => {
       console.log('Validate Failed:', errInfo);
     }
   };
-
-
-  
+//////////////////////////////////////////////////////////////////////
+  const handleChange =()=>{
+    setData([...data,setBenefit])
+  }
+  const addItem = () => {
+    const benefitObj = {
+      key: data.length+1,
+      id: data.length+1,
+      Benefit: benefit,
+      active:""
+    };
+    setData([...data, benefitObj]);
+    setBenefit('');
+  };
+  //////////////////////////////////////////////////////////////////
   const handleDeleteJob = record => {
-
-    setData(data.map(j =>{ return (j=== record) ?{...j, active:false} : j; }));
+    setData(data.map(j =>{ return (j=== record) ?{...j, active:true} : j; }));
     // setJobs(data.map(j =>{ return (j === job) ?{...j, active:false} : j; }));
-
-
     // fetch(
     //   `http://jobserviceelasticservice-env.eba-nivmzfat.ap-south-1.elasticbeanstalk.com/job/delete/${job.id}`,
     //   {
@@ -141,11 +135,7 @@ const Education = () => {
       //   }
       // });
   };
-
-
-
   const columns = [
-    
     {
       title: '#',
       dataIndex: 'id',
@@ -153,19 +143,17 @@ const Education = () => {
       editable: false,
     },
     {
-      title: 'Department',
-      dataIndex: 'Department',
+      title: 'Benefit',
+      dataIndex: 'Benefit',
       width: '38%',
       editable: true,
     },
-    
     {
       title: 'Action',
       dataIndex: 'Action',
       render: (_, record) => {
         const editable = isEditing(record);
         return editable ? (
-
           <span>
             <Typography.Link
               onClick={() => save(record.key)}
@@ -179,11 +167,8 @@ const Education = () => {
               <a>Cancel</a>
             </Popconfirm>
           </span>
-
-          
         ) : (
         <>
-        
           <Typography.Link disabled={editingKey !== ''} onClick={() => edit(record)}>
             Edit
           </Typography.Link>
@@ -193,20 +178,15 @@ const Education = () => {
               okText="Yes"
               cancelText="No"
             >
-            <IconButton disabled={!record.active} className={styled.DeleteBtn} >
+            <IconButton onClick={handleDeleteJob} disabled={record.active} className={styled.DeleteBtn} >
             <FontAwesomeIcon icon={faTrash} className={styled.DeleteIcon} />
            </IconButton>
           </Popconfirm>
         </>
-          
         );
-
-
-      
       },
     },
   ];
-
   const mergedColumns = columns.map((col) => {
     if (!col.editable) {
       return col;
@@ -223,6 +203,12 @@ const Education = () => {
     };
   });
   return (
+    <>
+    <section className={styled.heading} > Benefits Entry </section>
+    <div className={styled.textbox}>
+        <input className={styled.text} type={styled.textbar} value={benefit} onChange={e => setBenefit(e.target.value)}/>
+        <button className={styled.button}  disabled={benefit === ''} type="text" onClick={addItem}>Add</button>
+    </div>
     <Form form={form} component={false}>
       <Table
         components={{
@@ -231,6 +217,13 @@ const Education = () => {
           },
         }}
         bordered
+        // dataSource={data}.map((entry,i)=>{ return (
+        //   {
+        //     id: i+1,
+        //     Benefit:entry,
+        //     active: entry
+        //   }
+        //    )})}
         dataSource={data}
         columns={mergedColumns}
         rowClassName="editable-row"
@@ -239,6 +232,7 @@ const Education = () => {
         }}
       />
     </Form>
+    </>
   );
 };
 export default Education;

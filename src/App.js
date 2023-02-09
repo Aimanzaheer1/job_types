@@ -20,8 +20,8 @@ function App() {
     // </div>  
     // </>
   <>
-    <Compose/>
-    {/* <Textfield/> */}
+   {/* <Compose/>  */}
+      <Textfield/> 
     {/* <Textmenu/> */}
   </>
   );

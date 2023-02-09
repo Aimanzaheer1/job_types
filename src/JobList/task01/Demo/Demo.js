@@ -5,6 +5,7 @@ import swal from "sweetalert";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconButton } from '@mui/material';
 import styled from "./Demo.module.css";
+import './JobList.css'
 const EditableCell = ({
   editing,
   dataIndex,
